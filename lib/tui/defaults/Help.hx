@@ -1,6 +1,6 @@
 package tui.defaults;
 
-using tools.Strings;
+using sn.Strings;
 using ansi.colors.ColorTools;
 
 import ansi.Paint.paint;
