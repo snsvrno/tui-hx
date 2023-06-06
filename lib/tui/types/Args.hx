@@ -49,7 +49,7 @@ class Args {
 
 				if (!valid) {
 					error('no switch "$param"');
-					Sys.exit(1);
+					exit(1);
 				}
 			} else {
 				parsed.parameters.push(param);

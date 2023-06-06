@@ -5,9 +5,9 @@ using ansi.colors.ColorTools;
 
 import ansi.Paint.paint;
 import ansi.colors.Style;
-import tracer.Error.error;
-
 import tui.Formats.*;
+
+import tui.errors.*;
 
 /**
 	* a standard implementation of a help command, will be
@@ -51,7 +51,7 @@ class Help implements tui.types.Command {
 					return;
 				}
 			}
-			error("unknown command " + unknownCommand(args[0]));
+			parent.error(new ECommand(unknownCommand(args[0])));
 		}
 	}
 

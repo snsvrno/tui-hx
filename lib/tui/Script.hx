@@ -1,9 +1,10 @@
 package tui;
 
-import tracer.Debug.debug;
-import tracer.Error.error;
+import error.Error;
 
 import tui.Formats.*;
+
+import tui.errors.*;
 
 @:autoBuild(tui.macros.Script.build())
 class Script implements tui.types.Program {
@@ -63,6 +64,10 @@ class Script implements tui.types.Program {
 
 	public function init() { }
 
+	public function exit(code:Int) {
+		Sys.exit(code);
+	}
+
 	private function addSwitches(... option : tui.types.Switch) {
 		for (a in option) globalSwitches.push(a);
 	}
@@ -92,9 +97,9 @@ class Script implements tui.types.Program {
 					
 					// checks the hard coded switches
 					switch(gs.name) {
-						case "version": embeddedVersion();
-						case "help": embeddedHelp();
-						case "debug": embeddedDebug();
+						case "version": displayVersion();
+						case "help": displayHelp();
+						case "debug": debugEnabled();
 						case "bare": ansi.Mode.mode = Bare;
 						case _:
 					}
@@ -102,13 +107,13 @@ class Script implements tui.types.Program {
 					if(gs.value == null || gs.value == false) {
 
 						Switches.setFlag(gs.name);
-						debug('enabling ${option(gs.name)} global switch', name);
+						debug('enabling ${option(gs.name)} global switch');
 
 					} else {
 
 						var val = args.shift();
 						Switches.setValue(gs.name, val);
-						debug('setting ${option(gs.name)}=${value(val)}', name);
+						debug('setting ${option(gs.name)}=${value(val)}');
 
 					}
 
@@ -116,20 +121,20 @@ class Script implements tui.types.Program {
 				}
 
 				if (!valid) {
-					error('no switch "$param"', name);
-					Sys.exit(1);
+					error(new ESwitch(param));
+					exit(1);
 				}
 			}
 
 			for (command in commands) if (command.check(param)) {
 				command.run(... args);
-				Sys.exit(0);
+				exit(0);
 			}
 	
 			if (param == null && _runFunc == null) {
 				// if we are here we are not sure what to do with this
-				error("unknown command " + unknownCommand(param), name);
-				Sys.exit(1);
+				error(new ECommand(unknownCommand(param)));
+				exit(1);
 			}
 		}
 
@@ -137,25 +142,34 @@ class Script implements tui.types.Program {
 		// we are going to check if a default run function was set, and
 		// if not then show the basic help screen
 		if (_runFunc != null) _runFunc();
-		else embeddedHelp();
+		else displayHelp();
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	// embedded switches and commands
-	// inlined and below for organizantion and clean code.
+	public function debug(text : String) { }
+	public function error(e : Error) { trace(e.msg()); }
+	public function warning(text : String) { }
+	
+	/**
+	 * called when the built in debug switch is used.
+	 * override this to enable debug output.
+	 */
+	private function debugEnabled() {
 
-	inline private function embeddedHelp() {
-		for (comm in commands) if (comm.check("help")) comm.run();
-		Sys.exit(0);
 	}
 
-	inline private function embeddedDebug() {
-		tracer.Level.level = Debug;
-	}
-
-	inline private function embeddedVersion() {
+	/**
+	 * a built in version display.
+	 * override to change what is displayed when `--version` is
+	 * used
+	 */
+	private function displayVersion() {
 		Sys.println(version);
-		Sys.exit(0);
+		exit(0);
 	}
 
+	inline private function displayHelp() {
+		// to override help you need to add your own help command
+		for (comm in commands) if (comm.check("help")) comm.run();
+		exit(0);
+	}
 }
