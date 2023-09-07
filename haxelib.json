@@ -3,6 +3,8 @@
 	"version": "0.0.0",
 	"classPath": "lib",
 	"dependencies": {
+		"ansi": "",
+		"error": "",
 		"sn": ""
 	}
 }

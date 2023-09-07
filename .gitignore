@@ -1,0 +1,6 @@
+# local dev environment stuff
+.envrc
+.haxe
+.haxelib
+.neko
+build.hxml
