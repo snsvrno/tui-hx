@@ -9,6 +9,8 @@ import tui.errors.*;
 @:autoBuild(tui.macros.Script.build())
 class Script implements tui.types.Program {
 
+	public static var instance : Script;
+
 	public var name : String;
 	public var version : String;
 	public var description : String;
@@ -32,6 +34,7 @@ class Script implements tui.types.Program {
 	private var params : Array<String> = [];
 
 	public function new() {
+		instance = this;
 		init();
 
 		// OPTIM : make this a build macro, and not runtime

@@ -1,0 +1,8 @@
+-cp examples
+
+-lib tui
+
+-main Script
+
+-neko app.n
+
