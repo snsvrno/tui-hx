@@ -150,6 +150,7 @@ class Script implements Program {
 		// if not then show the basic help screen
 		if (_runFunc != null) _runFunc();
 		else displayHelp();
+		exit(0);
 	}
 
 	public function debug(text : String) { }
