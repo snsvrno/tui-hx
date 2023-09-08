@@ -21,7 +21,6 @@ class CountCommand implements tui.types.Command {
 	];
 
 	public function run(... args : String) {
-		var args = tui.Switches.parse(args, switches);
 
 		var count = if (args[0] == null) 5 else Std.parseInt(args[0]);
 		var padding = tui.Switches.getValue("zero padding");

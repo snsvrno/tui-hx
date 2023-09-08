@@ -1,14 +1,25 @@
 package tui.macros;
 
-using tui.macros.Helpers;
-
 import haxe.macro.Expr;
 import haxe.macro.Context;
+
+using tui.macros.Helpers;
 
 class Command {
 
 	public static function defaults() : Array<Field> {
 		var fields = Context.getBuildFields();
+
+		var run = fields.getField("run");
+		if (run != null) switch (run.kind) {
+			case(FFun(f)):
+				f.expr = macro {
+					args = tui.Switches.parse(args, switches);
+					${f.expr}
+				}
+
+			case _:
+		}
 
 		if (!fields.hasField("name")) fields.push({
 			name : "name",

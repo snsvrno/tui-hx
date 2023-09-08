@@ -4,3 +4,4 @@
 .haxelib
 .neko
 build.hxml
+*.n
