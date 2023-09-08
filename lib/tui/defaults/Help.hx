@@ -5,8 +5,12 @@ using ansi.colors.ColorTools;
 
 import ansi.Paint.paint;
 import ansi.colors.Style;
-import tui.Formats.*;
 
+import tui.types.Command;
+import tui.types.Program;
+import tui.types.Switch;
+
+import tui.Formats.*;
 import tui.errors.*;
 
 /**
@@ -14,7 +18,7 @@ import tui.errors.*;
 	* added to the list of commands automatically if no help
 	* command is found and there is at least one command
 	*/
-class Help implements tui.types.Command {
+class Help implements Command {
 	
 	//////////////////////////////////////
 
@@ -22,11 +26,11 @@ class Help implements tui.types.Command {
 	public var description = "shows this screen and extended help information for each command";
 	public var manDescription = "help can be used with each command to further describe the commands use and optional switches and parameters";
 
-	private var parent : tui.types.Program;
+	private var parent : Program;
 
 	/////////////////////////////////////
 
-	public function new(parent : tui.types.Program) {
+	public function new(parent : Program) {
 		this.parent = parent;
 	}
 
@@ -55,7 +59,7 @@ class Help implements tui.types.Command {
 		}
 	}
 
-	public function man(cmd : tui.types.Command, screenWidth : Int) {
+	public function man(cmd : Command, screenWidth : Int) {
 		Sys.println(cmd.manDescription);
 		usage(parent.name + " " + cmd.name, if (cmd.switches.length == 0) "" else null, "command");
 		listCommands(screenWidth, cmd.commands);
@@ -88,7 +92,7 @@ class Help implements tui.types.Command {
 		Sys.println(paint(text, White, Style.Underline) + ":");
 	}
 
-	inline private function listCommands(screenWidth : Int, ?commands : Array<tui.types.Command>) {
+	inline private function listCommands(screenWidth : Int, ?commands : Array<Command>) {
 
 		if (commands == null) commands = parent.commands;
 
@@ -116,7 +120,7 @@ class Help implements tui.types.Command {
 		}
 	}
 
-	inline private function listSwitches(screenWidth : Int, ?switches : Array<tui.types.Switch>) {
+	inline private function listSwitches(screenWidth : Int, ?switches : Array<Switch>) {
 
 		if (switches == null) switches = parent.globalSwitches;
 

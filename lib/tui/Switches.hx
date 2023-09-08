@@ -1,5 +1,7 @@
 package tui;
 
+import tui.types.Switch;
+
 import tui.Formats.*;
 import tui.errors.*;
 
@@ -36,7 +38,7 @@ class Switches {
 	}
 
 
-	public static function parse(args : Array<String>, switches : Array<tui.types.Switch>) : Array<String> {
+	public static function parse(args : Array<String>, switches : Array<Switch>) : Array<String> {
 		var params : Array<String> = [];
 
 		var param : Null<String> = null;

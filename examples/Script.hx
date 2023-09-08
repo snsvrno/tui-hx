@@ -21,7 +21,6 @@ class Script extends tui.Script {
 		);
 	}
 
-
 	override function debug(text:String) {
 		Sys.println("debug: " + text);
 	}

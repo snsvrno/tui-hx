@@ -1,5 +1,8 @@
 package tui.types;
 
+import tui.types.Command;
+import tui.types.Switch;
+
 /**
 	* object for a fuction command
 	*
@@ -25,8 +28,8 @@ interface Command {
 	/*** the display name of the command, that will be displayed in the man */
 	public var display : Null<String>;
 
-	public var switches : Array<tui.types.Switch>;
-	public var commands : Array<tui.types.Command>;
+	public var switches : Array<Switch>;
+	public var commands : Array<Command>;
 
 	public function run(...args : String) : Void;
 

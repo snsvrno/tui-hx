@@ -2,12 +2,16 @@ package tui;
 
 import error.Error;
 
+import tui.types.Command;
+import tui.types.Program;
+import tui.types.Switch;
+
 import tui.Formats.*;
 
 import tui.errors.*;
 
 @:autoBuild(tui.macros.Script.build())
-class Script implements tui.types.Program {
+class Script implements Program {
 
 	public static var instance : Script;
 
@@ -18,7 +22,7 @@ class Script implements tui.types.Program {
 	private var _runFunc : Null<() -> Void> = null;
 	
 	/** global switch definitions */
-	public var globalSwitches : Array<tui.types.Switch> = [
+	public var globalSwitches : Array<Switch> = [
 		{ group: "global", name: "debug", short: "-d", description: "show debug information during execution." },
 		{ group: "global", name: "quiet", short: "-q", description: "suppress all output except for errors." },
 		{ group: "global", name: "version", short: "-v", description: "displays the current version." },
@@ -26,7 +30,7 @@ class Script implements tui.types.Program {
 		{ group: "global", name: "bare", long: "--pipe", description: "removes all pretty output." },
 	];
 
-	public var commands : Array<tui.types.Command> = [];
+	public var commands : Array<Command> = [];
 
 	public var usageCommandOverride : String;
 
@@ -71,11 +75,11 @@ class Script implements tui.types.Program {
 		Sys.exit(code);
 	}
 
-	private function addSwitches(... option : tui.types.Switch) {
+	private function addSwitches(... option : Switch) {
 		for (a in option) globalSwitches.push(a);
 	}
 
-	private function addCommands(... command : tui.types.Command) {
+	private function addCommands(... command : Command) {
 		for (c in command) commands.push(c);
 	}
 
